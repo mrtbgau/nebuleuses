@@ -1,0 +1,44 @@
+name: nebuleuses
+description: "A new Flutter project."
+
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.1 <4.0.0"
+
+#============== PACKAGES ==============#
+dependencies:
+  flutter:
+    sdk: flutter
+
+  google_maps_flutter: ^2.6.0
+
+  # Icons
+  cupertino_icons: ^1.0.6
+  flutter_dotenv: ^5.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  #============== LOCAL ASSETS ==============#
+  assets:
+    - assets/images/background.png
+    - assets/images/logo.png
+    - .env
+
+  #============== LOCAL FONTS ==============#
+  fonts:
+    - family: Dongle
+      fonts:
+        - asset: assets/fonts/Dongle/Dongle-Regular.ttf
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter/static/Inter-Regular.ttf

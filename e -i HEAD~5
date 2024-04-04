@@ -1,0 +1,109 @@
+[33mcommit c881d403122c1dc744abce345f3b8e27b8b2d042[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: mrtbgau <mrt.bgau@gmail.com>
+Date:   Thu Apr 4 15:48:42 2024 +0200
+
+     Change minSdkVersion to 20 in android/app/build.gradle
+    Add Google Maps API key in android/app/src/main/AndroidManifest.xml
+    
+    This commit updates the minimum supported Android API level to 20 and adds the Google Maps API key in the AndroidManifest.xml file.
+
+[33mcommit e79bf30ecd9eda4d43140781a097b29bafbad03e[m
+Author: mrtbgau <mrt.bgau@gmail.com>
+Date:   Thu Apr 4 14:59:33 2024 +0200
+
+     Add search screen and update router
+    
+    This commit adds a new screen for search functionality and updates the router to include the search screen. The welcome screen has also been updated to navigate to the search screen when the "GO" button is pressed.
+    
+    Additionally, the `pubspec.lock` file has been updated to include new dependencies required for the search functionality. These dependencies include `csslib`, `flutter_plugin_android_lifecycle`, `google_maps`, `google_maps_flutter`, `google_maps_flutter_android`, `google_maps_flutter_ios`, `google_maps_flutter_platform_interface`, `google_maps_flutter_web`, `html`, `js`, `js_wrapping`, `plugin_platform_interface`, `sanitize_html`, `stream_transform`, and `web`.
+
+[33mcommit cf09989b2c8792106e97e9b8636271cfb354f197[m
+Author: mrtbgau <mrt.bgau@gmail.com>
+Date:   Thu Apr 4 09:55:53 2024 +0200
+
+     Update main.dart, splash.dart, and add button widget with navigation
+    
+    * Replace MaterialApp home with named routes
+    * Update Splash screen navigation to use named routes
+    * Add Button widget with onTap navigation to Welcome screen using named routes
+    * Remove unused import statement
+    
+    Binary file changes in logo.png are not included in the commit message.
+
+[33mcommit 17fd95d89a73213ddc3e1186f315219fa1d922da[m
+Author: mrtbgau <mrt.bgau@gmail.com>
+Date:   Sun Mar 31 01:03:51 2024 +0100
+
+     "Replace Splash screen with Welcome screen as home page"
+    
+    This commit message accurately describes the change in the code diff provided. It mentions that the `Splash` screen has been replaced with the `Welcome` screen as the home page of the app. The message is concise and sticks to describing the change without making any assumptions or interpretations about why the change was made.
+
+[33mcommit 21838bf9f6f8aa0dc3e058fef124ada8c326fd46[m
+Author: mrtbgau <mrt.bgau@gmail.com>
+Date:   Sat Mar 30 23:14:10 2024 +0100
+
+     Delete title, theme, and home page from MaterialApp; set home page to Splash()
+    
+    This commit removes the title, theme (including color scheme and use of Material 3), and home page (which was set to Splash()) from MaterialApp and sets the home page directly to Splash().
+
+[33mcommit 99a5ce08943cb1f33e039c306a7075f8459bad1f[m
+Author: mrtbgau <mrt.bgau@gmail.com>
+Date:   Sat Mar 30 23:10:17 2024 +0100
+
+     Remove MyHomePage widget and related code
+    
+    This commit removes the MyHomePage widget and its corresponding state class, _MyHomePageState. The associated counter variable, _counter, and the _incrementCounter method have also been removed. The AppBar and FloatingActionButton have been removed as well.
+
+[33mcommit 60a815be7db59c5c6d40b67d4151c596e9324402[m
+Author: mrtbgau <mrt.bgau@gmail.com>
+Date:   Sat Mar 30 23:07:46 2024 +0100
+
+     Update main.dart to set Splash screen as home page
+    
+    Change Connection screen to be navigated to after 3 seconds on Splash screen
+    
+    Convert Splash screen to a StatefulWidget and move Connection screen navigation to initState method with a Timer
+
+[33mcommit fd628f2ac3084817d12c723ecdd1d206bc764f6a[m
+Author: mrtbgau <mrt.bgau@gmail.com>
+Date:   Sat Mar 30 22:29:02 2024 +0100
+
+     Update Connection and Splash screens to use BackgroundImage widget
+    
+    - Replace the background container in Connection and Splash screens with the new BackgroundImage widget.
+    - Import necessary widgets at the beginning of the files.
+    - Remove unnecessary properties from the TextField widgets in Connection screen.
+    - Replace the TextField widget for the 'SE CONNECTER' button with the new Button widget in Connection screen.
+
+[33mcommit ced5550db2d42cbba82ff00bd85c188f8fd7fabf[m
+Author: mrtbgau <mrt.bgau@gmail.com>
+Date:   Thu Mar 28 22:48:13 2024 +0100
+
+     Update main.dart to use Connection screen instead of Splash
+    Replace Splash widget with Connection widget in lib/main.d:
+    - import 'package:nebuleuses/screens/splash.dart';
+    + import 'package:nebuleuses/screens/connection.dart';
+    - home: const Splash(),
+    + home: const Connection(),
+    Update Splash.dart to use new constructor format:
+    - const Splash({Key? key});
+    + const Splash({super.key});
+    Update pubspec.yaml to include new fonts:
+    - Remove previous fonts section
+    + Add new fonts section with Dongle and Inter fonts.
+
+[33mcommit 01d41efeec74e692b5fbded16d26d7debcb42ef8[m
+Author: mrtbgau <mrt.bgau@gmail.com>
+Date:   Wed Mar 27 23:24:29 2024 +0100
+
+     Update main.dart to set Splash screen as home page and add image assets in pubspec.yaml
+    
+    * In lib/main.dart, changed the home property of MaterialApp to const Splash().
+    * In pubspec.yaml, added image assets under flutter: assets.
+    * Updated the sdk constraint in pubspec.yaml to ">=3.3.1 <4.0.0".
+
+[33mcommit 3f486266bfbe1d1b386cea490efc357b951dccab[m
+Author: mrtbgau <mrt.bgau@gmail.com>
+Date:   Tue Mar 26 23:41:08 2024 +0100
+
+    first commit
