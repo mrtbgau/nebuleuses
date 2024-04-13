@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nebuleuses/router.dart';
-import 'package:nebuleuses/screens/welcome.dart';
 
 class Button extends StatelessWidget {
   final double height, fontSize;

@@ -33,6 +33,7 @@ flutter:
     - assets/images/background.png
     - assets/images/logo.png
     - .env
+    - assets/maptheme.json
 
   #============== LOCAL FONTS ==============#
   fonts:
