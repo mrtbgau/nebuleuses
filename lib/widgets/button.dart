@@ -12,29 +12,22 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: height,
-        margin: const EdgeInsets.symmetric(horizontal: 35),
-        decoration: BoxDecoration(
-          color: const Color(0xFF112A46),
-          borderRadius: BorderRadius.circular(50),
-        ),
-        child: Align(
-          alignment: Alignment.center,
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, AppRouter.welcomeScreen);
-            },
-            child: Text(
-              label,
-              style: TextStyle(
-                fontFamily: 'Dongle',
-                fontSize: fontSize,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-              ),
-            ),
+    return Align(
+      alignment: Alignment.center,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, AppRouter.welcomeScreen);
+        },
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Dongle',
+            fontSize: fontSize,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

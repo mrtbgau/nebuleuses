@@ -32,7 +32,10 @@ class _SearchState extends State<Search> {
                 child: FlutterLogo())
           ])
         ],
-      )
+      ),
+      const Padding(
+        padding: EdgeInsets.only(top: 50),
+      ),
     ]));
   }
 }
