@@ -15,17 +15,24 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FlutterMap(
-      mapController: controller,
-      options: const MapOptions(
-        initialCenter: LatLng(47.471127939803964, -0.6007549815877914),
-        initialZoom: 17,
-      ),
-      children: [
-        TileLayer(
-          urlTemplate: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-        )
-      ],
-    ));
+        body: Stack(children: [
+      FlutterMap(
+        mapController: controller,
+        options: const MapOptions(
+          initialCenter: LatLng(47.471127939803964, -0.6007549815877914),
+          initialZoom: 17,
+        ),
+        children: [
+          TileLayer(
+            urlTemplate: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+          ),
+          const MarkerLayer(markers: [
+            Marker(
+                point: LatLng(47.471136599758296, -0.6038369434940288),
+                child: FlutterLogo())
+          ])
+        ],
+      )
+    ]));
   }
 }
