@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -11,23 +10,29 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
-
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(47.41474402, -0.601991767262414),
-    zoom: 14.4746,
-  );
+  MapController controller = MapController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: GoogleMap(
-      mapType: MapType.hybrid,
-      initialCameraPosition: _kGooglePlex,
-      onMapCreated: (GoogleMapController controller) {
-        _controller.complete(controller);
-      },
-    ));
+        body: Stack(children: [
+      FlutterMap(
+        mapController: controller,
+        options: const MapOptions(
+          initialCenter: LatLng(47.471127939803964, -0.6007549815877914),
+          initialZoom: 17,
+        ),
+        children: [
+          TileLayer(
+            urlTemplate: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+          ),
+          const MarkerLayer(markers: [
+            Marker(
+                point: LatLng(47.471136599758296, -0.6038369434940288),
+                child: FlutterLogo())
+          ])
+        ],
+      )
+    ]));
   }
 }
