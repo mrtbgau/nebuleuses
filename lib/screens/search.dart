@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:nebuleuses/screens/text_container.dart';
+import 'package:nebuleuses/widgets/text_container.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});

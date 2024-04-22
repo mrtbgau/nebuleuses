@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nebuleuses/features/user_auth/firebase_auth_services.dart';
-import 'package:nebuleuses/screens/text_container.dart';
+import 'package:nebuleuses/router.dart';
+import 'package:nebuleuses/widgets/text_container.dart';
 import 'package:nebuleuses/widgets/background_image.dart';
 import 'package:nebuleuses/widgets/button.dart';
 import 'package:nebuleuses/widgets/text_input.dart';
@@ -66,13 +67,16 @@ class _ConnectionState extends State<Connection> {
               height: 75,
             ),
             TextContainer(
-                height: 54,
-                margin: 30,
-                child: Button(
-                  fontSize: 40,
-                  label: 'SE CONNECTER',
-                  onTap: signIn,
-                )),
+              height: 54,
+              margin: 30,
+              child: Button(
+                fontSize: 40,
+                label: 'SE CONNECTER',
+                onTap: signIn,
+                route: AppRouter.welcomeScreen,
+                isSigning: isSigning,
+              ),
+            ),
           ]),
         ],
       ),
@@ -80,20 +84,16 @@ class _ConnectionState extends State<Connection> {
   }
 
   void signIn() async {
-    setState(() {
-      isSigning = true;
-    });
-
     String username = usernameController.text;
     String pwd = pwdController.text;
 
     User? user = await auth.signIn(username, pwd);
 
-    setState(() {
-      isSigning = false;
-    });
-
     if (user != null) {
+      setState(() {
+        isSigning = true;
+      });
+
       Fluttertoast.showToast(
           msg: "Vous êtes connecté",
           toastLength: Toast.LENGTH_SHORT,
@@ -103,6 +103,10 @@ class _ConnectionState extends State<Connection> {
           textColor: Colors.white,
           fontSize: 16.0);
     } else {
+      setState(() {
+        isSigning = false;
+      });
+
       Fluttertoast.showToast(
           msg: "Identifiant ou mot de passe incorrect",
           toastLength: Toast.LENGTH_SHORT,

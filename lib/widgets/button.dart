@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:nebuleuses/router.dart';
 
 class Button extends StatelessWidget {
   final double fontSize;
-  final String label;
+  final String label, route;
   final Function onTap;
-  const Button(
-      {super.key,
-      required this.fontSize,
-      required this.label,
-      required this.onTap});
+  final bool isSigning;
+  const Button({
+    super.key,
+    required this.fontSize,
+    required this.label,
+    required this.onTap,
+    required this.route,
+    required this.isSigning,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTap;
-        Navigator.pushNamed(context, AppRouter.welcomeScreen);
+        onTap();
+        if (!isSigning) {
+          Navigator.pushNamed(context, route);
+        }
       },
       child: Text(
         label,
