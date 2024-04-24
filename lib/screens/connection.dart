@@ -22,6 +22,7 @@ class _ConnectionState extends State<Connection> {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController usernameController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -33,6 +34,7 @@ class _ConnectionState extends State<Connection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -45,38 +47,43 @@ class _ConnectionState extends State<Connection> {
                 child: ScreenTitle(title: 'CONNEXION'),
               ),
             ),
-            TextContainer(
-                height: 38,
-                margin: 30,
-                child: TextInput(
-                  placeholder: 'Mon identifiant',
-                  isPassword: false,
-                  controller: usernameController,
-                )),
-            const SizedBox(
-              height: 50,
-            ),
-            TextContainer(
-                height: 38,
-                margin: 30,
-                child: TextInput(
-                    placeholder: 'Mot de passe',
-                    isPassword: true,
-                    controller: pwdController)),
-            const SizedBox(
-              height: 75,
-            ),
-            TextContainer(
-              height: 54,
-              margin: 30,
-              child: Button(
-                fontSize: 40,
-                label: 'SE CONNECTER',
-                onTap: signIn,
-                route: AppRouter.welcomeScreen,
-                isSigning: isSigning,
-              ),
-            ),
+            Form(
+                key: _formKey,
+                child: Column(children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 30),
+                    child: TextInput(
+                      placeholder: 'Mon identifiant',
+                      isPassword: false,
+                      controller: usernameController,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 30),
+                    child: TextInput(
+                        placeholder: 'Mot de passe',
+                        isPassword: true,
+                        controller: pwdController),
+                  ),
+                  const SizedBox(
+                    height: 75,
+                  ),
+                  TextContainer(
+                    height: 54,
+                    margin: 30,
+                    child: Button(
+                      fontSize: 40,
+                      label: 'SE CONNECTER',
+                      onTap: signIn,
+                      route: AppRouter.welcomeScreen,
+                      isSigning: isSigning,
+                      formKey: _formKey,
+                    ),
+                  ),
+                ])),
           ]),
         ],
       ),

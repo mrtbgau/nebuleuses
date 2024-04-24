@@ -23,11 +23,18 @@ class _TextInputState extends State<TextInput> {
       style: const TextStyle(color: Colors.white),
       obscureText: widget.isPassword == true ? _obscureText : false,
       controller: widget.controller,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Veuillez saisir votre ${!widget.isPassword ? 'identifiant' : 'mot de passe'}";
+        }
+        return null;
+      },
       textAlign: TextAlign.center,
       decoration: InputDecoration(
-          //contentPadding: EdgeInsets.zero,
-          contentPadding: const EdgeInsets.only(left: 24.0, bottom: 3),
-          border: InputBorder.none,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
+          contentPadding: const EdgeInsets.only(left: 24),
+          fillColor: const Color(0xFF112A46),
+          filled: true,
           hintText: widget.placeholder,
           hintStyle: const TextStyle(
             fontFamily: "Dongle",

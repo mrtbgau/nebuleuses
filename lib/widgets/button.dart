@@ -5,22 +5,25 @@ class Button extends StatelessWidget {
   final String label, route;
   final Function onTap;
   final bool isSigning;
-  const Button({
-    super.key,
-    required this.fontSize,
-    required this.label,
-    required this.onTap,
-    required this.route,
-    required this.isSigning,
-  });
+  final GlobalKey<FormState> formKey;
+  const Button(
+      {super.key,
+      required this.fontSize,
+      required this.label,
+      required this.onTap,
+      required this.route,
+      required this.isSigning,
+      required this.formKey});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTap();
-        if (!isSigning) {
-          Navigator.pushNamed(context, route);
+        if (formKey.currentState!.validate()) {
+          onTap();
+          if (!isSigning) {
+            Navigator.pushNamed(context, route);
+          }
         }
       },
       child: Text(
