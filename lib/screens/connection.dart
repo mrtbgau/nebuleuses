@@ -98,7 +98,6 @@ class _ConnectionState extends State<Connection> {
           msg: "Vous êtes connecté",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
           fontSize: 16.0);
@@ -111,7 +110,6 @@ class _ConnectionState extends State<Connection> {
           msg: "Identifiant ou mot de passe incorrect",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
           fontSize: 16.0);
