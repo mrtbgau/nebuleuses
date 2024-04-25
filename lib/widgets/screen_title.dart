@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 
 class ScreenTitle extends StatelessWidget {
   final String title;
-  const ScreenTitle({super.key, required this.title});
+  final double fontSize;
+  const ScreenTitle({super.key, required this.title, required this.fontSize});
 
   @override
   Widget build(BuildContext context) {
     return Text(title,
-        style: const TextStyle(
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          height: 1.2,
           fontFamily: 'Dongle',
-          fontSize: 64,
+          fontSize: fontSize,
           fontWeight: FontWeight.w700,
-          color: Color(0xFF112A46),
+          color: const Color(0xFF112A46),
         ));
   }
 }

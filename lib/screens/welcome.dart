@@ -21,7 +21,7 @@ class Welcome extends StatelessWidget {
                   textAlign: TextAlign.left,
                   'Bienvenue',
                   style: TextStyle(
-                      fontFamily: 'Inter',
+                      fontFamily: 'HeroNew',
                       fontSize: 40,
                       fontWeight: FontWeight.w400),
                 ),
@@ -32,7 +32,7 @@ class Welcome extends StatelessWidget {
                 child: const Text(
                   'Quis laborum in eu non esse qui id sit cupidatat velit anim ea. Ex nostrud sit esse incididunt et fugiat fugiat dolore. Voluptate deserunt eu quis irure. Reprehenderit est cupidatat consectetur aute irure. Ut ullamco nostrud nulla proident labore. Dolor occaecat deserunt officia aliquip in irure ea sint enim deserunt ipsum velit. In minim laborum in minim.',
                   style: TextStyle(
-                    fontFamily: 'Inter',
+                    fontFamily: 'HeroNew',
                     fontSize: 20,
                     fontWeight: FontWeight.w400,
                   ),

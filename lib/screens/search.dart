@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:nebuleuses/router.dart';
 import 'package:nebuleuses/widgets/background_image.dart';
 import 'package:nebuleuses/widgets/screen_title.dart';
 import 'package:nebuleuses/widgets/text_container.dart';
@@ -81,11 +82,11 @@ void openPopUp(BuildContext context) {
                   const BackgroundImage(),
                   Column(
                     children: [
-                      const ScreenTitle(title: "RÉSERVER"),
+                      const ScreenTitle(title: "RÉSERVER", fontSize: 64),
                       const Text("CAPSULE 1 : RUE ABCDEFG",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: 'Inter',
+                            fontFamily: 'HeroNew',
                             fontSize: 20,
                             fontWeight: FontWeight.w400,
                             color: Color(0xFF112A46),
@@ -97,7 +98,10 @@ void openPopUp(BuildContext context) {
                           height: 38,
                           margin: 20,
                           child: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, AppRouter.unlockScreen);
+                              },
                               child: const Text(
                                 "VALIDER",
                                 textAlign: TextAlign.center,

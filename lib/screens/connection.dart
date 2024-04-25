@@ -45,7 +45,7 @@ class _ConnectionState extends State<Connection> {
               height: 81,
               margin: const EdgeInsets.only(top: 183, bottom: 50),
               child: const Center(
-                child: ScreenTitle(title: 'CONNEXION'),
+                child: ScreenTitle(title: 'CONNEXION', fontSize: 64),
               ),
             ),
             Form(

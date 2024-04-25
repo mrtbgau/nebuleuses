@@ -42,6 +42,7 @@ flutter:
     - assets/images/background.png
     - assets/images/logo.png
     - assets/images/marker.png
+    - assets/images/marker_white.png
     - .env
 
   #============== LOCAL FONTS ==============#
@@ -49,6 +50,6 @@ flutter:
     - family: Dongle
       fonts:
         - asset: assets/fonts/Dongle/Dongle-Regular.ttf
-    - family: Inter
+    - family: HeroNew
       fonts:
-        - asset: assets/fonts/Inter/static/Inter-Regular.ttf
+        - asset: assets/fonts/Hero_New/Hero-New-Regular.otf
