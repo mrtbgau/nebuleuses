@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nebuleuses/features/user_auth/firebase_auth_services.dart';
 import 'package:nebuleuses/router.dart';
+import 'package:nebuleuses/utils.dart';
 import 'package:nebuleuses/widgets/text_container.dart';
 import 'package:nebuleuses/widgets/background_image.dart';
 import 'package:nebuleuses/widgets/button.dart';
@@ -17,11 +17,12 @@ class Connection extends StatefulWidget {
 }
 
 class _ConnectionState extends State<Connection> {
-  bool isSigning = false;
   final FirebaseAuthService auth = FirebaseAuthService();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   TextEditingController usernameController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -78,8 +79,6 @@ class _ConnectionState extends State<Connection> {
                       fontSize: 40,
                       label: 'SE CONNECTER',
                       onTap: signIn,
-                      route: AppRouter.welcomeScreen,
-                      isSigning: isSigning,
                       formKey: _formKey,
                     ),
                   ),
@@ -97,29 +96,10 @@ class _ConnectionState extends State<Connection> {
     User? user = await auth.signIn(username, pwd);
 
     if (user != null) {
-      setState(() {
-        isSigning = true;
-      });
-
-      Fluttertoast.showToast(
-          msg: "Vous êtes connecté",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white,
-          fontSize: 16.0);
+      showToast("Vous êtes connecté");
+      Navigator.pushNamed(context, AppRouter.welcomeScreen);
     } else {
-      setState(() {
-        isSigning = false;
-      });
-
-      Fluttertoast.showToast(
-          msg: "Identifiant ou mot de passe incorrect",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white,
-          fontSize: 16.0);
+      showToast("Identifiant ou mot de passe incorrect");
     }
   }
 }

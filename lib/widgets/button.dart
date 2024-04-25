@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
   final double fontSize;
-  final String label, route;
+  final String label;
   final Function onTap;
-  final bool isSigning;
   final GlobalKey<FormState> formKey;
   const Button(
       {super.key,
       required this.fontSize,
       required this.label,
       required this.onTap,
-      required this.route,
-      required this.isSigning,
       required this.formKey});
 
   @override
@@ -21,9 +18,6 @@ class Button extends StatelessWidget {
       onTap: () {
         if (formKey.currentState!.validate()) {
           onTap();
-          if (!isSigning) {
-            Navigator.pushNamed(context, route);
-          }
         }
       },
       child: Text(

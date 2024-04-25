@@ -41,8 +41,8 @@ flutter:
   assets:
     - assets/images/background.png
     - assets/images/logo.png
+    - assets/images/marker.png
     - .env
-    - assets/maptheme.json
 
   #============== LOCAL FONTS ==============#
   fonts:
