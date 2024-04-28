@@ -17,6 +17,6 @@ class AppRouter {
     connectionScreen: (context) => const Connection(),
     welcomeScreen: (context) => const Welcome(),
     searchScreen: (context) => const Search(),
-    unlockScreen: (context) => const Unlock()
+    unlockScreen: (context) => Unlock()
   };
 }

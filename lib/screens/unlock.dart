@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:nebuleuses/widgets/background_image.dart';
 import 'package:nebuleuses/widgets/digit_code.dart';
@@ -5,7 +7,12 @@ import 'package:nebuleuses/widgets/screen_title.dart';
 import 'package:nebuleuses/widgets/text_container.dart';
 
 class Unlock extends StatelessWidget {
-  const Unlock({super.key});
+  Unlock({super.key});
+
+  final rdmDigit1 = Random().nextInt(10);
+  final rdmDigit2 = Random().nextInt(10);
+  final rdmDigit3 = Random().nextInt(10);
+  final rdmDigit4 = Random().nextInt(10);
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +28,16 @@ class Unlock extends StatelessWidget {
               const ScreenTitle(
                   title: "VOTRE CODE SECRET PROVISOIRE EST :", fontSize: 48),
               const SizedBox(height: 50),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  DigitCode(digit: 1),
-                  SizedBox(width: 15),
-                  DigitCode(digit: 3),
-                  SizedBox(width: 15),
-                  DigitCode(digit: 7),
-                  SizedBox(width: 15),
-                  DigitCode(digit: 5),
+                  DigitCode(digit: rdmDigit1),
+                  const SizedBox(width: 15),
+                  DigitCode(digit: rdmDigit2),
+                  const SizedBox(width: 15),
+                  DigitCode(digit: rdmDigit3),
+                  const SizedBox(width: 15),
+                  DigitCode(digit: rdmDigit4),
                 ],
               ),
               const SizedBox(height: 50),
