@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,9 @@ Future<void> main() async {
           appId: "1:285988176987:android:7d68c2434977e571f8eb7e",
           messagingSenderId: "285988176987",
           projectId: "nebuleuses-618a5"));
+
+  FirebaseFirestore.instance.settings =
+      const Settings(persistenceEnabled: true);
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(const MyApp()));

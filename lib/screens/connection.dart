@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nebuleuses/features/user_auth/firebase_auth_services.dart';
+import 'package:nebuleuses/services/firebase_auth_services.dart';
 import 'package:nebuleuses/router.dart';
 import 'package:nebuleuses/utils.dart';
 import 'package:nebuleuses/widgets/text_container.dart';
