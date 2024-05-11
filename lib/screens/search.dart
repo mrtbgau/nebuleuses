@@ -63,7 +63,103 @@ class _SearchState extends State<Search> {
                             ),
                           ],
                         ),
-                      ))
+                      )),
+                  Marker(
+                      point: const LatLng(47.47194, -0.54628),
+                      child: GestureDetector(
+                        onTap: () {
+                          openPopUp(context);
+                        },
+                        child: Image.asset('assets/images/marker.png'),
+                      )),
+                  Marker(
+                      point: const LatLng(47.46534, -0.55095),
+                      child: GestureDetector(
+                        onTap: () {
+                          openPopUp(context);
+                        },
+                        child: Image.asset('assets/images/marker.png'),
+                      )),
+                  Marker(
+                      point: const LatLng(47.46502, -0.55297),
+                      child: GestureDetector(
+                        onTap: () {
+                          openPopUp(context);
+                        },
+                        child: Image.asset('assets/images/marker.png'),
+                      )),
+                  Marker(
+                      point: const LatLng(47.465, -0.55801),
+                      child: GestureDetector(
+                        onTap: () {
+                          openPopUp(context);
+                        },
+                        child: Image.asset('assets/images/marker.png'),
+                      )),
+                  Marker(
+                      point: const LatLng(47.46949, -0.54503),
+                      child: GestureDetector(
+                        onTap: () {
+                          openPopUp(context);
+                        },
+                        child: Image.asset('assets/images/marker.png'),
+                      )),
+                  Marker(
+                      point: const LatLng(47.47091, -0.55184),
+                      child: GestureDetector(
+                        onTap: () {
+                          openPopUp(context);
+                        },
+                        child: Image.asset('assets/images/marker.png'),
+                      )),
+                  Marker(
+                      point: const LatLng(47.47187, -0.55734),
+                      child: GestureDetector(
+                        onTap: () {
+                          openPopUp(context);
+                        },
+                        child: Image.asset('assets/images/marker.png'),
+                      )),
+                  Marker(
+                      point: const LatLng(47.48015, -0.5507),
+                      child: GestureDetector(
+                        onTap: () {
+                          openPopUp(context);
+                        },
+                        child: Image.asset('assets/images/marker.png'),
+                      )),
+                  Marker(
+                      point: const LatLng(47.47992, -0.54006),
+                      child: GestureDetector(
+                        onTap: () {
+                          openPopUp(context);
+                        },
+                        child: Image.asset('assets/images/marker.png'),
+                      )),
+                  Marker(
+                      point: const LatLng(47.46995, -0.56926),
+                      child: GestureDetector(
+                        onTap: () {
+                          openPopUp(context);
+                        },
+                        child: Image.asset('assets/images/marker.png'),
+                      )),
+                  Marker(
+                      point: const LatLng(47.47452, -0.56234),
+                      child: GestureDetector(
+                        onTap: () {
+                          openPopUp(context);
+                        },
+                        child: Image.asset('assets/images/marker.png'),
+                      )),
+                  Marker(
+                      point: const LatLng(47.4929, -0.56651),
+                      child: GestureDetector(
+                        onTap: () {
+                          openPopUp(context);
+                        },
+                        child: Image.asset('assets/images/marker.png'),
+                      )),
                 ])
               ],
             ),
