@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthService {
@@ -9,7 +11,7 @@ class FirebaseAuthService {
           await auth.signInWithEmailAndPassword(email: username, password: pwd);
       return userCredential.user;
     } catch (e) {
-      print("error");
+      log("error");
     }
 
     return null;

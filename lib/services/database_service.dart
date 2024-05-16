@@ -7,11 +7,7 @@ class DatabaseService {
   late final CollectionReference capsules;
 
   DatabaseService() {
-    capsules = firestore.collection('capsules').withConverter<Capsule>(
-        fromFirestore: (snapshots, _) => Capsule.fromJson(
-              snapshots.data()!,
-            ),
-        toFirestore: (capsule, _) => capsule.toJson());
+    capsules = firestore.collection('capsules');
   }
 
   Stream<QuerySnapshot> getCapsules() {

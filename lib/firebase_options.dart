@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -49,16 +50,16 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAyzK0OtUYcGLLmMg6Pofbj3qetZ4_NUgg',
-    appId: '1:285988176987:android:7d68c2434977e571f8eb7e',
-    messagingSenderId: '285988176987',
-    projectId: 'nebuleuses-618a5',
-    storageBucket: 'nebuleuses-618a5.appspot.com',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env["FIREBASE_API_KEY"].toString(),
+    appId: "1:285988176987:android:7d68c2434977e571f8eb7e",
+    messagingSenderId: "285988176987",
+    projectId: "nebuleuses-618a5",
+    storageBucket: "nebuleuses-618a5.appspot.com",
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCwRy0HVjqOQ_fxzkyYdFZ0QezZcC359w8',
+    apiKey: 'dotenv.env["FIREBASE_API_KEY"].toString()',
     appId: '1:285988176987:ios:e9b4e3421d31bd74f8eb7e',
     messagingSenderId: '285988176987',
     projectId: 'nebuleuses-618a5',

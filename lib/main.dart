@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nebuleuses/firebase_options.dart';
 import 'package:nebuleuses/router.dart';
 import 'package:nebuleuses/screens/splash.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,12 +12,7 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-      options: FirebaseOptions(
-          apiKey: dotenv.env["FIREBASE_API_KEY"].toString(),
-          appId: "1:285988176987:android:7d68c2434977e571f8eb7e",
-          messagingSenderId: "285988176987",
-          projectId: "nebuleuses-618a5"));
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   FirebaseFirestore.instance.settings =
       const Settings(persistenceEnabled: true);

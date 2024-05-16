@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:nebuleuses/models/capsule.dart';
 import 'package:nebuleuses/router.dart';
+import 'package:nebuleuses/services/database_service.dart';
 import 'package:nebuleuses/utils.dart';
 import 'package:nebuleuses/widgets/background_image.dart';
 import 'package:nebuleuses/widgets/screen_title.dart';
@@ -19,176 +21,216 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   MapController controller = MapController();
 
+  final DatabaseService databaseService = DatabaseService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder(
-      future: getUserPosition(),
-      builder: (BuildContext context, AsyncSnapshot<Position> snapshot) {
-        if (snapshot.hasData) {
-          return Stack(children: [
-            FlutterMap(
-              mapController: controller,
-              options: MapOptions(
-                initialCenter:
-                    LatLng(snapshot.data!.latitude, snapshot.data!.longitude),
-                initialZoom: 17,
-              ),
-              children: [
-                TileLayer(
-                  urlTemplate:
-                      'http://{s}.tile.openstreetmap.fr/openriverboatmap/{z}/{x}/{y}.png',
-                ),
-                MarkerLayer(markers: [
-                  Marker(
-                      width: 70,
-                      height: 70,
-                      point: LatLng(
-                          snapshot.data!.latitude, snapshot.data!.longitude),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Column(
-                          children: [
-                            Image.asset('assets/images/marker.png'),
-                            const Text(
-                              textAlign: TextAlign.center,
-                              'Vous',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "HeroNew"),
-                            ),
-                          ],
-                        ),
-                      )),
-                  Marker(
-                      point: const LatLng(47.47194, -0.54628),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Image.asset('assets/images/marker.png'),
-                      )),
-                  Marker(
-                      point: const LatLng(47.46534, -0.55095),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Image.asset('assets/images/marker.png'),
-                      )),
-                  Marker(
-                      point: const LatLng(47.46502, -0.55297),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Image.asset('assets/images/marker.png'),
-                      )),
-                  Marker(
-                      point: const LatLng(47.465, -0.55801),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Image.asset('assets/images/marker.png'),
-                      )),
-                  Marker(
-                      point: const LatLng(47.46949, -0.54503),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Image.asset('assets/images/marker.png'),
-                      )),
-                  Marker(
-                      point: const LatLng(47.47091, -0.55184),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Image.asset('assets/images/marker.png'),
-                      )),
-                  Marker(
-                      point: const LatLng(47.47187, -0.55734),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Image.asset('assets/images/marker.png'),
-                      )),
-                  Marker(
-                      point: const LatLng(47.48015, -0.5507),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Image.asset('assets/images/marker.png'),
-                      )),
-                  Marker(
-                      point: const LatLng(47.47992, -0.54006),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Image.asset('assets/images/marker.png'),
-                      )),
-                  Marker(
-                      point: const LatLng(47.46995, -0.56926),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Image.asset('assets/images/marker.png'),
-                      )),
-                  Marker(
-                      point: const LatLng(47.47452, -0.56234),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Image.asset('assets/images/marker.png'),
-                      )),
-                  Marker(
-                      point: const LatLng(47.4929, -0.56651),
-                      child: GestureDetector(
-                        onTap: () {
-                          openPopUp(context);
-                        },
-                        child: Image.asset('assets/images/marker.png'),
-                      )),
-                ])
-              ],
-            ),
-            const Column(
-              children: [
-                SizedBox(height: 50),
-                TextContainer(
-                    height: 38,
-                    margin: 45,
-                    child: Text(
-                      "TROUVER UNE CAPSULE",
-                      style: TextStyle(
-                        fontFamily: 'Dongle',
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ))
-              ],
-            ),
-          ]);
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
+        body: StreamBuilder<QuerySnapshot>(
+            stream: databaseService.getCapsules(),
+            builder: (context, snapshot) {
+              final capsules = snapshot.data?.docs.map((doc) {
+                    final data = doc.data() as Map<String, dynamic>;
+                    return Capsule.fromJson(data);
+                  }).toList() ??
+                  [];
 
-        // The connection state is still ongoing
-        return const Center(child: CircularProgressIndicator());
-      },
-    ));
+              return FutureBuilder(
+                future: getUserPosition(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<Position> snapshot) {
+                  if (snapshot.hasData) {
+                    return Stack(children: [
+                      FlutterMap(
+                        mapController: controller,
+                        options: MapOptions(
+                          initialCenter: LatLng(snapshot.data!.latitude,
+                              snapshot.data!.longitude),
+                          initialZoom: 17,
+                        ),
+                        children: [
+                          TileLayer(
+                            urlTemplate:
+                                'http://{s}.tile.openstreetmap.fr/openriverboatmap/{z}/{x}/{y}.png',
+                          ),
+                          MarkerLayer(
+                              markers: capsules
+                                  .map((capsule) => Marker(
+                                        point: LatLng(
+                                            capsule.localisation.latitude,
+                                            capsule.localisation.longitude),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            openPopUp(context);
+                                          },
+                                          child: Image.asset(
+                                              'assets/images/marker.png'),
+                                        ),
+                                      ))
+                                  .toList()),
+                          //   MarkerLayer(markers: [
+                          //     Marker(
+                          //         width: 70,
+                          //         height: 70,
+                          //         point: LatLng(snapshot.data!.latitude,
+                          //             snapshot.data!.longitude),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child: Column(
+                          //             children: [
+                          //               Image.asset('assets/images/marker.png'),
+                          //               const Text(
+                          //                 textAlign: TextAlign.center,
+                          //                 'Vous',
+                          //                 style: TextStyle(
+                          //                     color: Colors.black,
+                          //                     fontSize: 12,
+                          //                     fontWeight: FontWeight.bold,
+                          //                     fontFamily: "HeroNew"),
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         )),
+                          //     Marker(
+                          //         point: const LatLng(47.47194, -0.54628),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child:
+                          //               Image.asset('assets/images/marker.png'),
+                          //         )),
+                          //     Marker(
+                          //         point: const LatLng(47.46534, -0.55095),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child:
+                          //               Image.asset('assets/images/marker.png'),
+                          //         )),
+                          //     Marker(
+                          //         point: const LatLng(47.46502, -0.55297),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child:
+                          //               Image.asset('assets/images/marker.png'),
+                          //         )),
+                          //     Marker(
+                          //         point: const LatLng(47.465, -0.55801),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child:
+                          //               Image.asset('assets/images/marker.png'),
+                          //         )),
+                          //     Marker(
+                          //         point: const LatLng(47.46949, -0.54503),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child:
+                          //               Image.asset('assets/images/marker.png'),
+                          //         )),
+                          //     Marker(
+                          //         point: const LatLng(47.47091, -0.55184),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child:
+                          //               Image.asset('assets/images/marker.png'),
+                          //         )),
+                          //     Marker(
+                          //         point: const LatLng(47.47187, -0.55734),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child:
+                          //               Image.asset('assets/images/marker.png'),
+                          //         )),
+                          //     Marker(
+                          //         point: const LatLng(47.48015, -0.5507),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child:
+                          //               Image.asset('assets/images/marker.png'),
+                          //         )),
+                          //     Marker(
+                          //         point: const LatLng(47.47992, -0.54006),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child:
+                          //               Image.asset('assets/images/marker.png'),
+                          //         )),
+                          //     Marker(
+                          //         point: const LatLng(47.46995, -0.56926),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child:
+                          //               Image.asset('assets/images/marker.png'),
+                          //         )),
+                          //     Marker(
+                          //         point: const LatLng(47.47452, -0.56234),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child:
+                          //               Image.asset('assets/images/marker.png'),
+                          //         )),
+                          //     Marker(
+                          //         point: const LatLng(47.4929, -0.56651),
+                          //         child: GestureDetector(
+                          //           onTap: () {
+                          //             openPopUp(context);
+                          //           },
+                          //           child:
+                          //               Image.asset('assets/images/marker.png'),
+                          //         )),
+                          //   ])
+                        ],
+                      ),
+                      const Column(
+                        children: [
+                          SizedBox(height: 50),
+                          TextContainer(
+                              height: 38,
+                              margin: 45,
+                              child: Text(
+                                "TROUVER UNE CAPSULE",
+                                style: TextStyle(
+                                  fontFamily: 'Dongle',
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ))
+                        ],
+                      ),
+                    ]);
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+
+                  // The connection state is still ongoing
+                  return const Center(child: CircularProgressIndicator());
+                },
+              );
+            }));
   }
 }
 

@@ -10,7 +10,7 @@ class Capsule {
 
   Capsule.fromJson(Map<String, Object?> json)
       : this(
-          code: json['code'] as int,
+          code: json['code'] as int?,
           estDisponible: json['estDisponible']! as bool,
           localisation: json['localisation']! as GeoPoint,
         );
