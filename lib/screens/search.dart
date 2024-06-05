@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:nebuleuses/models/capsule.dart';
@@ -23,13 +24,16 @@ class _SearchState extends State<Search> {
 
   final DatabaseService databaseService = DatabaseService();
 
+  double userPositionLatitude = 0;
+  double userPositionLongitude = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: StreamBuilder<QuerySnapshot>(
             stream: databaseService.getCapsules(),
             builder: (context, snapshot) {
-              final capsules = snapshot.data?.docs.map((doc) {
+              List capsules = snapshot.data?.docs.map((doc) {
                     final data = doc.data() as Map<String, dynamic>;
                     return Capsule.fromJson(data);
                   }).toList() ??
@@ -40,12 +44,15 @@ class _SearchState extends State<Search> {
                 builder:
                     (BuildContext context, AsyncSnapshot<Position> snapshot) {
                   if (snapshot.hasData) {
+                    userPositionLatitude += snapshot.data!.latitude;
+                    userPositionLongitude += snapshot.data!.longitude;
+
                     return Stack(children: [
                       FlutterMap(
                         mapController: controller,
                         options: MapOptions(
-                          initialCenter: LatLng(snapshot.data!.latitude,
-                              snapshot.data!.longitude),
+                          initialCenter: LatLng(
+                              userPositionLatitude, userPositionLongitude),
                           initialZoom: 17,
                         ),
                         children: [
@@ -63,151 +70,20 @@ class _SearchState extends State<Search> {
                                           onTap: () {
                                             openPopUp(context);
                                           },
-                                          child: Image.asset(
-                                              'assets/images/marker.png'),
+                                          child: SvgPicture.asset(
+                                              'assets/images/marker.svg',
+                                              width: 30,
+                                              height: 40,
+                                              color: const Color(0xFF112A46)),
                                         ),
                                       ))
                                   .toList()),
-                          //   MarkerLayer(markers: [
-                          //     Marker(
-                          //         width: 70,
-                          //         height: 70,
-                          //         point: LatLng(snapshot.data!.latitude,
-                          //             snapshot.data!.longitude),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child: Column(
-                          //             children: [
-                          //               Image.asset('assets/images/marker.png'),
-                          //               const Text(
-                          //                 textAlign: TextAlign.center,
-                          //                 'Vous',
-                          //                 style: TextStyle(
-                          //                     color: Colors.black,
-                          //                     fontSize: 12,
-                          //                     fontWeight: FontWeight.bold,
-                          //                     fontFamily: "HeroNew"),
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         )),
-                          //     Marker(
-                          //         point: const LatLng(47.47194, -0.54628),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child:
-                          //               Image.asset('assets/images/marker.png'),
-                          //         )),
-                          //     Marker(
-                          //         point: const LatLng(47.46534, -0.55095),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child:
-                          //               Image.asset('assets/images/marker.png'),
-                          //         )),
-                          //     Marker(
-                          //         point: const LatLng(47.46502, -0.55297),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child:
-                          //               Image.asset('assets/images/marker.png'),
-                          //         )),
-                          //     Marker(
-                          //         point: const LatLng(47.465, -0.55801),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child:
-                          //               Image.asset('assets/images/marker.png'),
-                          //         )),
-                          //     Marker(
-                          //         point: const LatLng(47.46949, -0.54503),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child:
-                          //               Image.asset('assets/images/marker.png'),
-                          //         )),
-                          //     Marker(
-                          //         point: const LatLng(47.47091, -0.55184),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child:
-                          //               Image.asset('assets/images/marker.png'),
-                          //         )),
-                          //     Marker(
-                          //         point: const LatLng(47.47187, -0.55734),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child:
-                          //               Image.asset('assets/images/marker.png'),
-                          //         )),
-                          //     Marker(
-                          //         point: const LatLng(47.48015, -0.5507),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child:
-                          //               Image.asset('assets/images/marker.png'),
-                          //         )),
-                          //     Marker(
-                          //         point: const LatLng(47.47992, -0.54006),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child:
-                          //               Image.asset('assets/images/marker.png'),
-                          //         )),
-                          //     Marker(
-                          //         point: const LatLng(47.46995, -0.56926),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child:
-                          //               Image.asset('assets/images/marker.png'),
-                          //         )),
-                          //     Marker(
-                          //         point: const LatLng(47.47452, -0.56234),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child:
-                          //               Image.asset('assets/images/marker.png'),
-                          //         )),
-                          //     Marker(
-                          //         point: const LatLng(47.4929, -0.56651),
-                          //         child: GestureDetector(
-                          //           onTap: () {
-                          //             openPopUp(context);
-                          //           },
-                          //           child:
-                          //               Image.asset('assets/images/marker.png'),
-                          //         )),
-                          //   ])
                         ],
                       ),
-                      const Column(
+                      Column(
                         children: [
-                          SizedBox(height: 50),
-                          TextContainer(
+                          const SizedBox(height: 50),
+                          const TextContainer(
                               height: 38,
                               margin: 45,
                               child: Text(
@@ -218,7 +94,84 @@ class _SearchState extends State<Search> {
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
                                 ),
-                              ))
+                              )),
+                          Expanded(
+                            child: DraggableScrollableSheet(builder:
+                                (BuildContext context, scrollSheetController) {
+                              return Container(
+                                  decoration: const BoxDecoration(
+                                      color: Color(0xFF112A46),
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(30),
+                                          topRight: Radius.circular(30))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 15),
+                                    child: ListView.builder(
+                                      padding: EdgeInsets.zero,
+                                      physics: const ClampingScrollPhysics(),
+                                      controller: scrollSheetController,
+                                      itemCount: capsules.length,
+                                      itemBuilder: (context, index) {
+                                        Capsule capsule = capsules[index];
+                                        double distance = calculateDistance(
+                                          userPositionLatitude,
+                                          userPositionLongitude,
+                                          capsule.localisation.latitude,
+                                          capsule.localisation.longitude,
+                                        );
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 25),
+                                          child: ListTile(
+                                            leading: SvgPicture.asset(
+                                              'assets/images/marker.svg',
+                                              width: 18,
+                                              height: 24,
+                                              color: const Color(0xFFACC8E5),
+                                            ),
+                                            title: FutureBuilder<String>(
+                                              future: fetchAdressWithLongAndLat(
+                                                  capsule
+                                                      .localisation.longitude,
+                                                  capsule
+                                                      .localisation.latitude),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return const Text(
+                                                    'Chargement...',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontFamily: 'HeroNew',
+                                                      fontSize: 20,
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return Text(
+                                                    snapshot.data!,
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontFamily: 'HeroNew',
+                                                      fontSize: 18,
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                            ),
+                                            trailing: Text(
+                                                '${distance.toStringAsFixed(1)} km',
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'HeroNew',
+                                                    fontSize: 20)),
+                                            onTap: () => openPopUp(context),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ));
+                            }),
+                          ),
                         ],
                       ),
                     ]);
@@ -247,7 +200,6 @@ void openPopUp(BuildContext context) {
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Stack(
-                //alignment: Alignment.center,
                 children: [
                   const BackgroundImage(),
                   Column(

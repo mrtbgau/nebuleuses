@@ -26,7 +26,11 @@ dependencies:
   latlong2: ^0.9.1
   geolocator: ^11.0.0
 
+  http: ^1.2.1
+
   logger: ^2.0.2+1
+
+  flutter_svg: ^2.0.10+1
 
   # Icons
   cupertino_icons: ^1.0.6
@@ -44,8 +48,7 @@ flutter:
   assets:
     - assets/images/background.png
     - assets/images/logo.png
-    - assets/images/marker.png
-    - assets/images/marker_white.png
+    - assets/images/marker.svg
     - .env
 
   #============== LOCAL FONTS ==============#

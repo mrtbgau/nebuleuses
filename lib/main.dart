@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nebuleuses/firebase_options.dart';
 import 'package:nebuleuses/router.dart';
+import 'package:nebuleuses/screens/search.dart';
 import 'package:nebuleuses/screens/splash.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

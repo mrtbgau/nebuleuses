@@ -62,10 +62,10 @@ class Unlock extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image(
-                          width: 17,
-                          height: 24,
-                          image: AssetImage("assets/images/marker_white.png")),
+                      // Image(
+                      //     width: 17,
+                      //     height: 24,
+                      //     image: AssetImage("assets/images/marker_white.png")),
                       SizedBox(width: 15),
                       Text(
                         "CAPSULE 1 : RUE ABCDEFG",
