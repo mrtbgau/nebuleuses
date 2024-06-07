@@ -1,6 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nebuleuses/models/capsule.dart';
+import 'package:nebuleuses/utils.dart';
 import 'package:nebuleuses/widgets/background_image.dart';
 import 'package:nebuleuses/widgets/digit_code.dart';
 import 'package:nebuleuses/widgets/screen_title.dart';
@@ -16,6 +19,11 @@ class Unlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Capsule capsule =
+        ModalRoute.of(context)!.settings.arguments as Capsule;
+
+    capsule.code = int.parse("$rdmDigit1$rdmDigit2$rdmDigit3$rdmDigit4");
+
     return Scaffold(
       body: Stack(
         children: [
@@ -56,26 +64,53 @@ class Unlock extends StatelessWidget {
               const SizedBox(height: 50),
               const ScreenTitle(title: "VOUS AVEZ RÉSERVÉ :", fontSize: 40),
               const SizedBox(height: 15),
-              const TextContainer(
+              TextContainer(
                   height: 50,
                   margin: 25,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Image(
-                      //     width: 17,
-                      //     height: 24,
-                      //     image: AssetImage("assets/images/marker_white.png")),
-                      SizedBox(width: 15),
-                      Text(
-                        "CAPSULE 1 : RUE ABCDEFG",
-                        style: TextStyle(
-                            fontFamily: "HeroNew",
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20,
-                            color: Colors.white),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/marker.svg',
+                            width: 18,
+                            height: 24,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(width: 5),
+                          FutureBuilder<String>(
+                            future: fetchAdressWithLongAndLat(
+                                capsule.localisation.longitude,
+                                capsule.localisation.latitude),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Text(
+                                  'Chargement...',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'HeroNew',
+                                    fontSize: 20,
+                                  ),
+                                );
+                              } else {
+                                return Text(
+                                  "CAPSULE : ${snapshot.data!.toUpperCase()}",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'HeroNew',
+                                    fontSize: 18,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ))
             ],
           )
