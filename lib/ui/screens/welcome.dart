@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nebuleuses/router.dart';
-import 'package:nebuleuses/widgets/background_image.dart';
+import '../widgets/background_image.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});

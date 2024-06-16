@@ -8,9 +8,9 @@ import 'package:nebuleuses/models/capsule.dart';
 import 'package:nebuleuses/router.dart';
 import 'package:nebuleuses/services/database_service.dart';
 import 'package:nebuleuses/utils.dart';
-import 'package:nebuleuses/widgets/background_image.dart';
-import 'package:nebuleuses/widgets/screen_title.dart';
-import 'package:nebuleuses/widgets/text_container.dart';
+import '../widgets/background_image.dart';
+import '../widgets/screen_title.dart';
+import '../widgets/text_container.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -23,6 +23,7 @@ class _SearchState extends State<Search> {
   MapController controller = MapController();
 
   final DatabaseService databaseService = DatabaseService();
+  String capsuleID = "";
 
   double userPositionLatitude = 0;
   double userPositionLongitude = 0;
@@ -68,7 +69,8 @@ class _SearchState extends State<Search> {
                                             capsule.localisation.longitude),
                                         child: GestureDetector(
                                           onTap: () {
-                                            openPopUp(context, capsule);
+                                            openPopUp(
+                                                context, capsule, capsuleID);
                                           },
                                           child: SvgPicture.asset(
                                               'assets/images/marker.svg',
@@ -164,8 +166,8 @@ class _SearchState extends State<Search> {
                                                     color: Colors.white,
                                                     fontFamily: 'HeroNew',
                                                     fontSize: 20)),
-                                            onTap: () =>
-                                                openPopUp(context, capsule),
+                                            onTap: () => openPopUp(
+                                                context, capsule, capsuleID),
                                           ),
                                         );
                                       },
@@ -177,7 +179,15 @@ class _SearchState extends State<Search> {
                       ),
                     ]);
                   } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
+                    return Center(
+                        child: Text(
+                      'Erreur: ${snapshot.error}',
+                      style: const TextStyle(
+                          fontFamily: 'HeroNew',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF112A46)),
+                    ));
                   }
 
                   // The connection state is still ongoing
@@ -188,7 +198,7 @@ class _SearchState extends State<Search> {
   }
 }
 
-void openPopUp(BuildContext context, Capsule capsule) {
+void openPopUp(BuildContext context, Capsule capsule, String capsuleID) {
   showDialog(
       context: context,
       builder: ((context) {
@@ -243,8 +253,10 @@ void openPopUp(BuildContext context, Capsule capsule) {
                             child: GestureDetector(
                                 onTap: () {
                                   Navigator.pushNamed(
-                                      context, AppRouter.unlockScreen,
-                                      arguments: capsule);
+                                    context,
+                                    AppRouter.unlockScreen,
+                                    arguments: capsule,
+                                  );
                                 },
                                 child: const Text(
                                   "VALIDER",

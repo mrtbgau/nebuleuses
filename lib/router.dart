@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nebuleuses/screens/connection.dart';
-import 'package:nebuleuses/screens/search.dart';
-import 'package:nebuleuses/screens/splash.dart';
-import 'package:nebuleuses/screens/unlock.dart';
-import 'package:nebuleuses/screens/welcome.dart';
+import '../ui/screens/connection.dart';
+import '../ui/screens/search.dart';
+import '../ui/screens/splash.dart';
+import '../ui/screens/unlock.dart';
+import '../ui/screens/welcome.dart';
 
 class AppRouter {
   static const String splashScreen = "/splash";

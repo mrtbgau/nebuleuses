@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:nebuleuses/services/firebase_auth_services.dart';
 import 'package:nebuleuses/router.dart';
 import 'package:nebuleuses/utils.dart';
-import 'package:nebuleuses/widgets/text_container.dart';
-import 'package:nebuleuses/widgets/background_image.dart';
-import 'package:nebuleuses/widgets/button.dart';
-import 'package:nebuleuses/widgets/text_input.dart';
-import 'package:nebuleuses/widgets/screen_title.dart';
+import '../widgets/text_container.dart';
+import '../widgets/background_image.dart';
+import '../widgets/button.dart';
+import '../widgets/text_input.dart';
+import '../widgets/screen_title.dart';
 
 class Connection extends StatefulWidget {
   const Connection({super.key});

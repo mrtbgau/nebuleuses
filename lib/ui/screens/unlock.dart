@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nebuleuses/models/capsule.dart';
 import 'package:nebuleuses/utils.dart';
-import 'package:nebuleuses/widgets/background_image.dart';
-import 'package:nebuleuses/widgets/digit_code.dart';
-import 'package:nebuleuses/widgets/screen_title.dart';
-import 'package:nebuleuses/widgets/text_container.dart';
+import '../widgets/background_image.dart';
+import '../widgets/digit_code.dart';
+import '../widgets/screen_title.dart';
+import '../widgets/text_container.dart';
 
 class Unlock extends StatelessWidget {
   Unlock({super.key});
@@ -22,16 +22,37 @@ class Unlock extends StatelessWidget {
     final Capsule capsule =
         ModalRoute.of(context)!.settings.arguments as Capsule;
 
-    capsule.code = int.parse("$rdmDigit1$rdmDigit2$rdmDigit3$rdmDigit4");
-
     return Scaffold(
       body: Stack(
         children: [
           const BackgroundImage(),
           Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 30, top: 35),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF112A46),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back_ios_rounded,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               const SizedBox(
-                height: 120,
+                height: 70,
               ),
               const ScreenTitle(
                   title: "VOTRE CODE SECRET PROVISOIRE EST :", fontSize: 48),
