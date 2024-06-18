@@ -28,7 +28,7 @@ class WelcomeView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(50.0),
+            padding: const EdgeInsets.symmetric(horizontal: 50),
             child: Image.asset(
               image,
               fit: BoxFit.contain,
@@ -46,7 +46,7 @@ class WelcomeView extends StatelessWidget {
                     fontWeight: FontWeight.w400),
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Text(
                   description,
                   textAlign: TextAlign.center,

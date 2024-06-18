@@ -33,10 +33,19 @@ class _WelcomeState extends State<Welcome> {
       nextPage: 2,
     ),
     WelcomeView(
-      image: "assets/images/logo.png",
+      image: "assets/images/code.png",
       title: "Code d'accès",
       description:
           "Recevez votre code d'accès unique pour entrer dans la capsule",
+      buttonText: "Suivant",
+      pageController: pageController,
+      nextPage: 3,
+    ),
+    WelcomeView(
+      image: "assets/images/logo.png",
+      title: "Services",
+      description:
+          "Profitez de prises électriques, du Wi-Fi et de l'alimentation solaire dans chaque capsule.",
       buttonText: "GO",
       pageController: pageController,
       nextPage: -1,
@@ -60,20 +69,23 @@ class _WelcomeState extends State<Welcome> {
                 children: welcomeViews,
               ),
             ),
-            SmoothPageIndicator(
-              controller: pageController,
-              count: welcomeViews.length,
-              effect: const ExpandingDotsEffect(
-                activeDotColor: Color(0xFF112A46),
-                dotColor: Color(0xFFD1D1D1),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: SmoothPageIndicator(
+                controller: pageController,
+                count: welcomeViews.length,
+                effect: const ExpandingDotsEffect(
+                  activeDotColor: Color(0xFF112A46),
+                  dotColor: Color(0xFFD1D1D1),
+                ),
+                onDotClicked: (index) {
+                  pageController.animateToPage(
+                    index,
+                    duration: Durations.long1,
+                    curve: Curves.linear,
+                  );
+                },
               ),
-              onDotClicked: (index) {
-                pageController.animateToPage(
-                  index,
-                  duration: Durations.long1,
-                  curve: Curves.linear,
-                );
-              },
             ),
           ],
         ),

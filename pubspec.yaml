@@ -51,6 +51,7 @@ flutter:
     - assets/images/background.png
     - assets/images/logo.png
     - assets/images/carte.png
+    - assets/images/code.png
     - assets/images/marker.svg
     - .env
 
