@@ -1,66 +1,83 @@
 import 'package:flutter/material.dart';
-import 'package:nebuleuses/router.dart';
+import 'package:nebuleuses/ui/widgets/welcome_view.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../widgets/background_image.dart';
 
-class Welcome extends StatelessWidget {
+class Welcome extends StatefulWidget {
   const Welcome({super.key});
+
+  @override
+  State<Welcome> createState() => _WelcomeState();
+}
+
+class _WelcomeState extends State<Welcome> {
+  static final PageController pageController = PageController(initialPage: 0);
+
+  List<Widget> welcomeViews = [
+    WelcomeView(
+      image: "assets/images/logo.png",
+      title: "Bienvenue",
+      description:
+          "Nébuleuses est là pour vous offrir un abri temporaire et confortable lorsque vous en avez besoin.",
+      buttonText: "Suivant",
+      pageController: pageController,
+      nextPage: 1,
+    ),
+    WelcomeView(
+      image: "assets/images/carte.png",
+      title: "Réservation",
+      description:
+          "Choisissez un emplacement et une date pour réserver votre capsule.",
+      buttonText: "Suivant",
+      pageController: pageController,
+      nextPage: 2,
+    ),
+    WelcomeView(
+      image: "assets/images/logo.png",
+      title: "Code d'accès",
+      description:
+          "Recevez votre code d'accès unique pour entrer dans la capsule",
+      buttonText: "GO",
+      pageController: pageController,
+      nextPage: -1,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(fit: StackFit.expand, children: [
-          const BackgroundImage(),
-          Column(
-            children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(left: 50),
-                margin: const EdgeInsets.only(top: 50),
-                child: const Text(
-                  textAlign: TextAlign.left,
-                  'Bienvenue',
-                  style: TextStyle(
-                      fontFamily: 'HeroNew',
-                      fontSize: 40,
-                      fontWeight: FontWeight.w400),
-                ),
+      resizeToAvoidBottomInset: false,
+      body: Stack(fit: StackFit.expand, children: [
+        const BackgroundImage(),
+        Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: PageView(
+                controller: pageController,
+                children: welcomeViews,
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 50),
-                padding: const EdgeInsets.symmetric(horizontal: 50),
-                child: const Text(
-                  'Quis laborum in eu non esse qui id sit cupidatat velit anim ea. Ex nostrud sit esse incididunt et fugiat fugiat dolore. Voluptate deserunt eu quis irure. Reprehenderit est cupidatat consectetur aute irure. Ut ullamco nostrud nulla proident labore. Dolor occaecat deserunt officia aliquip in irure ea sint enim deserunt ipsum velit. In minim laborum in minim.',
-                  style: TextStyle(
-                    fontFamily: 'HeroNew',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+            ),
+            SmoothPageIndicator(
+              controller: pageController,
+              count: welcomeViews.length,
+              effect: const ExpandingDotsEffect(
+                activeDotColor: Color(0xFF112A46),
+                dotColor: Color(0xFFD1D1D1),
               ),
-              const SizedBox(
-                height: 100,
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF112A46),
-                    shape: const CircleBorder(),
-                    fixedSize: const Size(125, 125)),
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRouter.searchScreen);
-                },
-                child: const Text(
-                  "GO",
-                  style: TextStyle(
-                    fontFamily: "Dongle",
-                    fontSize: 80,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          )
-        ]));
+              onDotClicked: (index) {
+                pageController.animateToPage(
+                  index,
+                  duration: Durations.long1,
+                  curve: Curves.linear,
+                );
+              },
+            ),
+          ],
+        ),
+      ]),
+    );
   }
 }

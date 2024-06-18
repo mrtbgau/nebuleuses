@@ -32,7 +32,7 @@ dependencies:
 
   flutter_svg: ^2.0.10+1
 
-  flutter_native_splash: ^2.4.0
+  smooth_page_indicator: ^1.1.0
 
   # Icons
   cupertino_icons: ^1.0.6
@@ -50,6 +50,7 @@ flutter:
   assets:
     - assets/images/background.png
     - assets/images/logo.png
+    - assets/images/carte.png
     - assets/images/marker.svg
     - .env
 
