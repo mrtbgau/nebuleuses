@@ -1,9 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:nebuleuses/models/capsule.dart';
 import 'package:nebuleuses/models/capsule_with_distance.dart';
 import 'package:nebuleuses/router.dart';
@@ -12,6 +8,7 @@ import 'package:nebuleuses/services/database_service.dart';
 import 'package:nebuleuses/ui/widgets/capsule_list.dart';
 import 'package:nebuleuses/ui/widgets/capsule_map.dart';
 import 'package:nebuleuses/utils.dart';
+
 import '../widgets/background_image.dart';
 import '../widgets/screen_title.dart';
 import '../widgets/text_container.dart';
