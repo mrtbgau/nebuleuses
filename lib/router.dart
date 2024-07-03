@@ -16,7 +16,7 @@ class AppRouter {
     splashScreen: (context) => const Splash(),
     connectionScreen: (context) => const Connection(),
     welcomeScreen: (context) => const Welcome(),
-    searchScreen: (context) => const Search(),
+    searchScreen: (context) => Search(),
     unlockScreen: (context) => Unlock()
   };
 }

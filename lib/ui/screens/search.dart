@@ -5,200 +5,94 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:nebuleuses/models/capsule.dart';
+import 'package:nebuleuses/models/capsule_with_distance.dart';
 import 'package:nebuleuses/router.dart';
+import 'package:nebuleuses/services/capsule_service.dart';
 import 'package:nebuleuses/services/database_service.dart';
+import 'package:nebuleuses/ui/widgets/capsule_list.dart';
+import 'package:nebuleuses/ui/widgets/capsule_map.dart';
 import 'package:nebuleuses/utils.dart';
 import '../widgets/background_image.dart';
 import '../widgets/screen_title.dart';
 import '../widgets/text_container.dart';
 
-class Search extends StatefulWidget {
-  const Search({super.key});
+class Search extends StatelessWidget {
+  final CapsuleService _capsuleService = CapsuleService(DatabaseService());
 
-  @override
-  State<Search> createState() => _SearchState();
-}
-
-class _SearchState extends State<Search> {
-  MapController controller = MapController();
-
-  final DatabaseService databaseService = DatabaseService();
-  String capsuleID = "";
-
-  double userPositionLatitude = 0;
-  double userPositionLongitude = 0;
+  Search({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: StreamBuilder<QuerySnapshot>(
-            stream: databaseService.getCapsules(),
-            builder: (context, snapshot) {
-              List capsules = snapshot.data?.docs.map((doc) {
-                    final data = doc.data() as Map<String, dynamic>;
-                    return Capsule.fromJson(data);
-                  }).toList() ??
-                  [];
-
-              return FutureBuilder(
-                future: getUserPosition(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<Position> snapshot) {
-                  if (snapshot.hasData) {
-                    userPositionLatitude += snapshot.data!.latitude;
-                    userPositionLongitude += snapshot.data!.longitude;
-
-                    return Stack(children: [
-                      FlutterMap(
-                        mapController: controller,
-                        options: MapOptions(
-                          initialCenter: LatLng(
-                              userPositionLatitude, userPositionLongitude),
-                          initialZoom: 17,
-                        ),
-                        children: [
-                          TileLayer(
-                            urlTemplate:
-                                'http://{s}.tile.openstreetmap.fr/openriverboatmap/{z}/{x}/{y}.png',
-                          ),
-                          MarkerLayer(
-                              markers: capsules
-                                  .map((capsule) => Marker(
-                                        point: LatLng(
-                                            capsule.localisation.latitude,
-                                            capsule.localisation.longitude),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            openPopUp(
-                                                context, capsule, capsuleID);
-                                          },
-                                          child: SvgPicture.asset(
-                                              'assets/images/marker.svg',
-                                              width: 30,
-                                              height: 40,
-                                              color: const Color(0xFF112A46)),
-                                        ),
-                                      ))
-                                  .toList()),
-                        ],
+      body: FutureBuilder<Position>(
+        future: getUserPosition(),
+        builder: (context, positionSnapshot) {
+          if (positionSnapshot.hasData) {
+            return StreamBuilder<List<Capsule>>(
+              stream: _capsuleService.getCapsules(),
+              builder: (context, capsulesSnapshot) {
+                if (capsulesSnapshot.hasData) {
+                  return Stack(
+                    children: [
+                      CapsuleMapWidget(
+                        capsules: capsulesSnapshot.data!,
+                        userPosition: positionSnapshot.data!,
+                        onCapsuleTap: (capsule) => openPopUp(context, capsule),
                       ),
                       Column(
                         children: [
                           const SizedBox(height: 50),
                           const TextContainer(
-                              height: 38,
-                              margin: 45,
-                              child: Text(
-                                "TROUVER UNE CAPSULE",
-                                style: TextStyle(
-                                  fontFamily: 'Dongle',
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
-                              )),
+                            height: 38,
+                            margin: 45,
+                            child: Text("TROUVER UNE CAPSULE", style: TextStyle(fontFamily: 'Dongle', fontSize: 32, fontWeight: FontWeight.w700, color: Colors.white)),
+                          ),
                           Expanded(
-                            child: DraggableScrollableSheet(builder:
-                                (BuildContext context, scrollSheetController) {
-                              return Container(
+                            child: DraggableScrollableSheet(
+                              builder: (context, scrollController) {
+                                return Container(
                                   decoration: const BoxDecoration(
-                                      color: Color(0xFF112A46),
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(30),
-                                          topRight: Radius.circular(30))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 15),
-                                    child: ListView.builder(
-                                      padding: EdgeInsets.zero,
-                                      physics: const ClampingScrollPhysics(),
-                                      controller: scrollSheetController,
-                                      itemCount: capsules.length,
-                                      itemBuilder: (context, index) {
-                                        Capsule capsule = capsules[index];
-                                        double distance = calculateDistance(
-                                          userPositionLatitude,
-                                          userPositionLongitude,
-                                          capsule.localisation.latitude,
-                                          capsule.localisation.longitude,
+                                    color: Color(0xFF112A46),
+                                    borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                                  ),
+                                  child: FutureBuilder<List<CapsuleWithDistance>>(
+                                    future: _capsuleService.getCapsulesSortedByDistance(),
+                                    builder: (context, sortedCapsulesSnapshot) {
+                                      if (sortedCapsulesSnapshot.hasData) {
+                                        return CapsuleListWidget(
+                                          capsules: sortedCapsulesSnapshot.data!,
+                                          onCapsuleTap: (capsule) => openPopUp(context, capsule),
                                         );
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 25),
-                                          child: ListTile(
-                                            leading: SvgPicture.asset(
-                                              'assets/images/marker.svg',
-                                              width: 18,
-                                              height: 24,
-                                              color: const Color(0xFFACC8E5),
-                                            ),
-                                            title: FutureBuilder<String>(
-                                              future: fetchAdressWithLongAndLat(
-                                                  capsule
-                                                      .localisation.longitude,
-                                                  capsule
-                                                      .localisation.latitude),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.connectionState ==
-                                                    ConnectionState.waiting) {
-                                                  return const Text(
-                                                    'Chargement...',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontFamily: 'HeroNew',
-                                                      fontSize: 20,
-                                                    ),
-                                                  );
-                                                } else {
-                                                  return Text(
-                                                    snapshot.data!,
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontFamily: 'HeroNew',
-                                                      fontSize: 18,
-                                                    ),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                            trailing: Text(
-                                                '${distance.toStringAsFixed(1)} km',
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontFamily: 'HeroNew',
-                                                    fontSize: 20)),
-                                            onTap: () => openPopUp(
-                                                context, capsule, capsuleID),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ));
-                            }),
+                                      } else {
+                                        return const Center(child: CircularProgressIndicator());
+                                      }
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
-                    ]);
-                  } else if (snapshot.hasError) {
-                    return Center(
-                        child: Text(
-                      'Erreur: ${snapshot.error}',
-                      style: const TextStyle(
-                          fontFamily: 'HeroNew',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF112A46)),
-                    ));
-                  }
-
-                  // The connection state is still ongoing
+                    ],
+                  );
+                } else {
                   return const Center(child: CircularProgressIndicator());
-                },
-              );
-            }));
+                }
+              },
+            );
+          } else if (positionSnapshot.hasError) {
+            return Center(child: Text('Erreur: ${positionSnapshot.error}'));
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+    );
   }
 }
 
-void openPopUp(BuildContext context, Capsule capsule, String capsuleID) {
+void openPopUp(BuildContext context, Capsule capsule) {
   showDialog(
       context: context,
       builder: ((context) {
